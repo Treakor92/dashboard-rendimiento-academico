@@ -4,5 +4,3 @@ https://github.com/Treakor92/dashboard-rendimiento-academico
 DASHBOARD EN BINDER
 https://mybinder.org/v2/gh/Treakor92/dashboard-rendimiento-academico/HEAD?urlpath=proxy/8050/
 
-INSTRUCCIÓN
-Publica esta carpeta en un repositorio público llamado dashboard-rendimiento-academico y comprueba ambos enlaces antes de entregar.
