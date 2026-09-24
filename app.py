@@ -128,7 +128,20 @@ experimentos, modelos_logisticos = experimentar_logistica(df)
 mejor_experimento = experimentos.sort_values("Validacion", ascending=False).iloc[0]
 
 
-app = Dash(__name__, title="Plano analítico | Rendimiento académico", suppress_callback_exceptions=True)
+def obtener_prefijo_rutas():
+    prefijo_binder = os.getenv("JUPYTERHUB_SERVICE_PREFIX")
+    if not prefijo_binder:
+        return "/"
+    puerto = os.getenv("DASH_PORT", "8050")
+    return f"{prefijo_binder.rstrip('/')}/proxy/{puerto}/"
+
+
+app = Dash(
+    __name__,
+    title="Plano analítico | Rendimiento académico",
+    suppress_callback_exceptions=True,
+    requests_pathname_prefix=obtener_prefijo_rutas(),
+)
 server = app.server
 
 
@@ -474,5 +487,6 @@ def actualizar_experimento(c, solver):
 
 
 if __name__ == "__main__":
-    os.environ["PORT"] = os.getenv("DASH_PORT", "8050")
-    app.run(debug=False, host="0.0.0.0", port=8050)
+    puerto = int(os.getenv("DASH_PORT", "8050"))
+    os.environ["PORT"] = str(puerto)
+    app.run(debug=False, host="0.0.0.0", port=puerto)

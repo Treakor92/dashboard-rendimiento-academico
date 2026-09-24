@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from app import (
     actualizar_clasificacion,
@@ -6,6 +7,7 @@ from app import (
     comparar_regresiones,
     df,
     experimentos,
+    obtener_prefijo_rutas,
 )
 
 
@@ -40,6 +42,11 @@ class DashboardAcademicoTest(unittest.TestCase):
         self.assertTrue(salida[2].endswith("%"))
         self.assertTrue(salida[3].endswith("%"))
         self.assertTrue(salida[4].endswith("%"))
+
+    def test_prefijo_binder(self):
+        entorno = {"JUPYTERHUB_SERVICE_PREFIX": "/user/prueba/", "DASH_PORT": "8050"}
+        with patch.dict("os.environ", entorno, clear=False):
+            self.assertEqual(obtener_prefijo_rutas(), "/user/prueba/proxy/8050/")
 
 
 if __name__ == "__main__":
